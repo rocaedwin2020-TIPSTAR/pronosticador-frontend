@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 
 const BACKEND = "https://pronosticador-backend.vercel.app";
@@ -1085,3 +1086,4 @@ Al final: cuota total combinada y nivel de confianza.`;
     </div>
   );
 }
+
