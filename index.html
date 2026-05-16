@@ -7,14 +7,57 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-title" content="Pronosticador"/>
 <title>Pronosticador AI</title>
-<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif}
+#loading{display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:16px;color:#15803d;font-size:18px;font-weight:600}
+.spinner{width:40px;height:40px;border:4px solid #dcfce7;border-top:4px solid #16a34a;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
 </head>
-<body style="margin:0">
-<div id="root"><div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#15803d;font-size:18px">⚡ Cargando...</div></div>
-<script type="text/babel" data-presets="react">
-const { useState, useEffect } = React;
+<body>
+<div id="loading">
+  <div class="spinner"></div>
+  <div>⚡ Pronosticador AI</div>
+  <div style="font-size:13px;color:#666;font-weight:400">Cargando...</div>
+</div>
+<div id="root" style="display:none"></div>
+
+<!-- Load React from CDN (cached by browser after first load) -->
+<script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+
+<!-- Sucrase is faster than Babel for JSX transformation -->
+<script src="https://cdn.jsdelivr.net/npm/sucrase@3.35.0/dist/browser/sucrase.js"></script>
+
+<script>
+// Transform and run the app
+window.addEventListener('load', function() {
+  try {
+    var appCode = document.getElementById('app-code').textContent;
+    var { useState, useEffect } = React;
+    
+    var transformed = sucrase.transform(appCode, {
+      transforms: ['jsx'],
+      jsxRuntime: 'classic',
+      production: true,
+    }).code;
+    
+    eval(transformed);
+    
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('root').style.display = 'block';
+    
+    var root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(React.createElement(App));
+  } catch(e) {
+    document.getElementById('loading').innerHTML = '<div style="color:red;padding:20px;text-align:center">Error: ' + e.message + '</div>';
+    console.error(e);
+  }
+});
+</script>
+
+<script id="app-code" type="text/plain">
 
 
 const BACKEND = "https://pronosticador-backend.vercel.app";
@@ -1103,8 +1146,6 @@ Al final: cuota total combinada y nivel de confianza.`;
   );
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(React.createElement(App));
 </script>
 </body>
 </html>
