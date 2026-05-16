@@ -102,7 +102,10 @@ const G = "#16a34a", GD = "#15803d";
 
 export default function App() {
   // Wake up Render on load
-  useEffect(() => {
+  useEffect(() => { if (tab === "picks" && mlbGames.length === 0) { fetchMLBGames(); }
+}, [tab]);
+
+useEffect(() => {
     fetch(`${BACKEND}/`).catch(() => {});
   }, []);
 
