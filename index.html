@@ -12,8 +12,8 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body style="margin:0">
-<div id="root"><div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#15803d;font-size:18px">⚡ Cargando Pronosticador AI...</div></div>
-<script type="text/babel" data-presets="react" data-type="module">
+<div id="root"><div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#15803d;font-size:18px">⚡ Cargando...</div></div>
+<script type="text/babel" data-presets="react">
 const { useState, useEffect } = React;
 
 
@@ -481,13 +481,13 @@ Al final: cuota total combinada y nivel de confianza.`;
     const prompt = sport === "tennis" ? buildTennisPrompt() : buildMLBPrompt();
     setLoadingAnalysis(true); setAnalysis(null);
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch(`${BACKEND}/api/analyze`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 1000, messages: [{ role: "user", content: prompt }] }),
+        body: JSON.stringify({ prompt }),
       });
       const data = await res.json();
-      setAnalysis(data.content?.map(b => b.text || "").join("\n") || "Error.");
+      setAnalysis(data.text || data.error || "Error.");
     } catch { setAnalysis("❌ Error de conexión."); }
     setLoadingAnalysis(false);
   };
@@ -497,13 +497,13 @@ Al final: cuota total combinada y nivel de confianza.`;
     setLoadingSection(l => ({ ...l, [key]: true }));
     setSectionResult(r => ({ ...r, [key]: null }));
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch(`${BACKEND}/api/analyze`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 1000, messages: [{ role: "user", content: buildSectionPrompt(type, sportType) }] }),
+        body: JSON.stringify({ prompt: buildSectionPrompt(type, sportType) }),
       });
       const data = await res.json();
-      setSectionResult(r => ({ ...r, [key]: data.content?.map(b => b.text || "").join("\n") || "Error." }));
+      setSectionResult(r => ({ ...r, [key]: data.text || data.error || "Error." }));
     } catch { setSectionResult(r => ({ ...r, [key]: "❌ Error." })); }
     setLoadingSection(l => ({ ...l, [key]: false }));
   };
