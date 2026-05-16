@@ -471,7 +471,7 @@ Al final: cuota total combinada y nivel de confianza.`;
         body: JSON.stringify({ prompt }),
       });
       const data = await res.json();
-      setAnalysis(data.texto || data.error || "Error.");
+      setAnalysis(data.text || data.error || "Error.");
     } catch { setAnalysis("❌ Error de conexión."); }
     setLoadingAnalysis(false);
   };
@@ -487,7 +487,7 @@ Al final: cuota total combinada y nivel de confianza.`;
         body: JSON.stringify({ prompt: buildSectionPrompt(type, sportType) }),
       });
       const data = await res.json();
-      setSectionResult(r => ({ ...r, [key]: data.texto || data.error || "Error." }));
+      setSectionResult(r => ({ ...r, [key]: data.text || data.error || "Error." }));
     } catch { setSectionResult(r => ({ ...r, [key]: "❌ Error." })); }
     setLoadingSection(l => ({ ...l, [key]: false }));
   };
