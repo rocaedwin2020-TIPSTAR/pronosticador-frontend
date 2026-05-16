@@ -3,79 +3,79 @@ import { useState, useEffect } from "react";
 
 const BACKEND = "https://pronosticador-backend.vercel.app";
 
-// ????????? PLAYER DATABASE ??????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+// ─── PLAYER DATABASE ──────────────────────────────────────────────────────────
 const ATP = [
-  { name: "Jannik Sinner", ranking: 1, flag: "????????", hand: "Derecho" },
-  { name: "Carlos Alcaraz", ranking: 2, flag: "????????", hand: "Derecho" },
-  { name: "Alexander Zverev", ranking: 3, flag: "????????", hand: "Derecho" },
-  { name: "Novak Djokovic", ranking: 4, flag: "????????", hand: "Derecho" },
-  { name: "Casper Ruud", ranking: 5, flag: "????????", hand: "Derecho" },
-  { name: "Taylor Fritz", ranking: 6, flag: "????????", hand: "Derecho" },
-  { name: "Daniil Medvedev", ranking: 7, flag: "????????", hand: "Derecho" },
-  { name: "Andrey Rublev", ranking: 8, flag: "????????", hand: "Derecho" },
-  { name: "Hubert Hurkacz", ranking: 9, flag: "????????", hand: "Derecho" },
-  { name: "Alex de Minaur", ranking: 10, flag: "????????", hand: "Derecho" },
-  { name: "Tommy Paul", ranking: 11, flag: "????????", hand: "Derecho" },
-  { name: "Holger Rune", ranking: 12, flag: "????????", hand: "Derecho" },
-  { name: "Stefanos Tsitsipas", ranking: 13, flag: "????????", hand: "Derecho" },
-  { name: "Grigor Dimitrov", ranking: 14, flag: "????????", hand: "Derecho" },
-  { name: "Ben Shelton", ranking: 15, flag: "????????", hand: "Zurdo" },
-  { name: "Frances Tiafoe", ranking: 16, flag: "????????", hand: "Derecho" },
-  { name: "Ugo Humbert", ranking: 17, flag: "????????", hand: "Zurdo" },
-  { name: "Arthur Fils", ranking: 18, flag: "????????", hand: "Derecho" },
-  { name: "Felix Auger-Aliassime", ranking: 19, flag: "????????", hand: "Derecho" },
-  { name: "Lorenzo Musetti", ranking: 20, flag: "????????", hand: "Derecho" },
-  { name: "Jakub Mensik", ranking: 21, flag: "????????", hand: "Derecho" },
-  { name: "Tomas Machac", ranking: 22, flag: "????????", hand: "Derecho" },
-  { name: "Sebastian Baez", ranking: 23, flag: "????????", hand: "Derecho" },
-  { name: "Jiri Lehecka", ranking: 24, flag: "????????", hand: "Derecho" },
-  { name: "Karen Khachanov", ranking: 25, flag: "????????", hand: "Derecho" },
-  { name: "Francisco Cerundolo", ranking: 26, flag: "????????", hand: "Derecho" },
-  { name: "Nicolas Jarry", ranking: 27, flag: "????????", hand: "Derecho" },
-  { name: "Rafael Jodar", ranking: 35, flag: "????????", hand: "Derecho" },
-  { name: "Matteo Berrettini", ranking: 42, flag: "????????", hand: "Derecho" },
-  { name: "Denis Shapovalov", ranking: 45, flag: "????????", hand: "Zurdo" },
-  { name: "Otro / Manual", ranking: 0, flag: "????", hand: "" },
+  { name: "Jannik Sinner", ranking: 1, flag: "🇮🇹", hand: "Derecho" },
+  { name: "Carlos Alcaraz", ranking: 2, flag: "🇪🇸", hand: "Derecho" },
+  { name: "Alexander Zverev", ranking: 3, flag: "🇩🇪", hand: "Derecho" },
+  { name: "Novak Djokovic", ranking: 4, flag: "🇷🇸", hand: "Derecho" },
+  { name: "Casper Ruud", ranking: 5, flag: "🇳🇴", hand: "Derecho" },
+  { name: "Taylor Fritz", ranking: 6, flag: "🇺🇸", hand: "Derecho" },
+  { name: "Daniil Medvedev", ranking: 7, flag: "🇷🇺", hand: "Derecho" },
+  { name: "Andrey Rublev", ranking: 8, flag: "🇷🇺", hand: "Derecho" },
+  { name: "Hubert Hurkacz", ranking: 9, flag: "🇵🇱", hand: "Derecho" },
+  { name: "Alex de Minaur", ranking: 10, flag: "🇦🇺", hand: "Derecho" },
+  { name: "Tommy Paul", ranking: 11, flag: "🇺🇸", hand: "Derecho" },
+  { name: "Holger Rune", ranking: 12, flag: "🇩🇰", hand: "Derecho" },
+  { name: "Stefanos Tsitsipas", ranking: 13, flag: "🇬🇷", hand: "Derecho" },
+  { name: "Grigor Dimitrov", ranking: 14, flag: "🇧🇬", hand: "Derecho" },
+  { name: "Ben Shelton", ranking: 15, flag: "🇺🇸", hand: "Zurdo" },
+  { name: "Frances Tiafoe", ranking: 16, flag: "🇺🇸", hand: "Derecho" },
+  { name: "Ugo Humbert", ranking: 17, flag: "🇫🇷", hand: "Zurdo" },
+  { name: "Arthur Fils", ranking: 18, flag: "🇫🇷", hand: "Derecho" },
+  { name: "Felix Auger-Aliassime", ranking: 19, flag: "🇨🇦", hand: "Derecho" },
+  { name: "Lorenzo Musetti", ranking: 20, flag: "🇮🇹", hand: "Derecho" },
+  { name: "Jakub Mensik", ranking: 21, flag: "🇨🇿", hand: "Derecho" },
+  { name: "Tomas Machac", ranking: 22, flag: "🇨🇿", hand: "Derecho" },
+  { name: "Sebastian Baez", ranking: 23, flag: "🇦🇷", hand: "Derecho" },
+  { name: "Jiri Lehecka", ranking: 24, flag: "🇨🇿", hand: "Derecho" },
+  { name: "Karen Khachanov", ranking: 25, flag: "🇷🇺", hand: "Derecho" },
+  { name: "Francisco Cerundolo", ranking: 26, flag: "🇦🇷", hand: "Derecho" },
+  { name: "Nicolas Jarry", ranking: 27, flag: "🇨🇱", hand: "Derecho" },
+  { name: "Rafael Jodar", ranking: 35, flag: "🇪🇸", hand: "Derecho" },
+  { name: "Matteo Berrettini", ranking: 42, flag: "🇮🇹", hand: "Derecho" },
+  { name: "Denis Shapovalov", ranking: 45, flag: "🇨🇦", hand: "Zurdo" },
+  { name: "Otro / Manual", ranking: 0, flag: "🎾", hand: "" },
 ];
 
 const WTA = [
-  { name: "Aryna Sabalenka", ranking: 1, flag: "????????", hand: "Derecho" },
-  { name: "Iga Swiatek", ranking: 2, flag: "????????", hand: "Derecho" },
-  { name: "Coco Gauff", ranking: 3, flag: "????????", hand: "Derecho" },
-  { name: "Jessica Pegula", ranking: 4, flag: "????????", hand: "Derecho" },
-  { name: "Qinwen Zheng", ranking: 5, flag: "????????", hand: "Derecho" },
-  { name: "Elena Rybakina", ranking: 6, flag: "????????", hand: "Derecho" },
-  { name: "Emma Navarro", ranking: 7, flag: "????????", hand: "Derecho" },
-  { name: "Daria Kasatkina", ranking: 8, flag: "????????", hand: "Derecho" },
-  { name: "Mirra Andreeva", ranking: 9, flag: "????????", hand: "Derecho" },
-  { name: "Paula Badosa", ranking: 10, flag: "????????", hand: "Derecho" },
-  { name: "Jasmine Paolini", ranking: 12, flag: "????????", hand: "Derecho" },
-  { name: "Diana Shnaider", ranking: 13, flag: "????????", hand: "Zurdo" },
-  { name: "Madison Keys", ranking: 15, flag: "????????", hand: "Derecho" },
-  { name: "Anna Kalinskaya", ranking: 16, flag: "????????", hand: "Zurdo" },
-  { name: "Beatriz Haddad Maia", ranking: 19, flag: "????????", hand: "Zurdo" },
-  { name: "Otro / Manual", ranking: 0, flag: "????", hand: "" },
+  { name: "Aryna Sabalenka", ranking: 1, flag: "🇧🇾", hand: "Derecho" },
+  { name: "Iga Swiatek", ranking: 2, flag: "🇵🇱", hand: "Derecho" },
+  { name: "Coco Gauff", ranking: 3, flag: "🇺🇸", hand: "Derecho" },
+  { name: "Jessica Pegula", ranking: 4, flag: "🇺🇸", hand: "Derecho" },
+  { name: "Qinwen Zheng", ranking: 5, flag: "🇨🇳", hand: "Derecho" },
+  { name: "Elena Rybakina", ranking: 6, flag: "🇰🇿", hand: "Derecho" },
+  { name: "Emma Navarro", ranking: 7, flag: "🇺🇸", hand: "Derecho" },
+  { name: "Daria Kasatkina", ranking: 8, flag: "🇷🇺", hand: "Derecho" },
+  { name: "Mirra Andreeva", ranking: 9, flag: "🇷🇺", hand: "Derecho" },
+  { name: "Paula Badosa", ranking: 10, flag: "🇪🇸", hand: "Derecho" },
+  { name: "Jasmine Paolini", ranking: 12, flag: "🇮🇹", hand: "Derecho" },
+  { name: "Diana Shnaider", ranking: 13, flag: "🇷🇺", hand: "Zurdo" },
+  { name: "Madison Keys", ranking: 15, flag: "🇺🇸", hand: "Derecho" },
+  { name: "Anna Kalinskaya", ranking: 16, flag: "🇷🇺", hand: "Zurdo" },
+  { name: "Beatriz Haddad Maia", ranking: 19, flag: "🇧🇷", hand: "Zurdo" },
+  { name: "Otro / Manual", ranking: 0, flag: "🎾", hand: "" },
 ];
 
 const STRENGTHS = [
-  "Primer saque potente","Segundo saque s??lido","Gran retorno",
-  "Derecha poderosa","Rev??s con topspin","Rev??s slice",
-  "Juego de red","Fondo de cancha s??lido","Velocidad en pista",
-  "Resistencia f??sica","Fortaleza mental","Gran tiebreak",
+  "Primer saque potente","Segundo saque sólido","Gran retorno",
+  "Derecha poderosa","Revés con topspin","Revés slice",
+  "Juego de red","Fondo de cancha sólido","Velocidad en pista",
+  "Resistencia física","Fortaleza mental","Gran tiebreak",
   "Juego agresivo","Contraataque/defensa",
   "Domina arcilla","Domina pista dura","Domina hierba",
 ];
 const WEAKNESSES = [
-  "Segundo saque d??bil","Dobles faltas frecuentes","Rev??s inconsistente",
+  "Segundo saque débil","Dobles faltas frecuentes","Revés inconsistente",
   "Derecha inconsistente","Bajo % break points","Inicio lento",
-  "Presi??n en puntos clave","Baja forma f??sica","Lesi??n reciente",
-  "D??bil en arcilla","D??bil en pista r??pida","D??bil en hierba",
-  "D??bil vs zurdos","Poca experiencia en torneos grandes",
+  "Presión en puntos clave","Baja forma física","Lesión reciente",
+  "Débil en arcilla","Débil en pista rápida","Débil en hierba",
+  "Débil vs zurdos","Poca experiencia en torneos grandes",
 ];
-const FORM_OPTS = ["???? Excelente (4-1/5-0)","??? Buena (3-2)","?????? Regular (2-3)","??? Mala (0-5/1-4)"];
-const SURF_OPTS = ["???? Dominante","??? Bueno","?????? Regular","??? D??bil"];
+const FORM_OPTS = ["🔥 Excelente (4-1/5-0)","✅ Buena (3-2)","⚠️ Regular (2-3)","❌ Mala (0-5/1-4)"];
+const SURF_OPTS = ["👑 Dominante","✅ Bueno","⚠️ Regular","❌ Débil"];
 const ROUNDS = ["1R","2R","3R","4R","Cuartos","Semis","Final"];
-const PICK_TYPES = ["??? Mejor del D??a","???? Combinada","???? So??ador","???? Underdog","???? An??lisis Propio"];
+const PICK_TYPES = ["⭐ Mejor del Día","🔗 Combinada","🚀 Soñador","🐴 Underdog","🧠 Análisis Propio"];
 
 const MLB_TEAMS = [
   {name:"Arizona Diamondbacks",short:"ARI"},{name:"Atlanta Braves",short:"ATL"},
@@ -212,10 +212,10 @@ export default function App() {
           const windMph = parseInt(windStr.match(/(\d+)/)?.[1] || "0");
           const windOut = windStr.toLowerCase().includes("out");
           const windIn = windStr.toLowerCase().includes("in");
-          let windBetting = "???? Viento neutro";
-          if (windMph >= 15 && windOut) windBetting = "???? Viento AFUERA ??? favorece ALTAS";
-          else if (windMph >= 15 && windIn) windBetting = "???? Viento ADENTRO ??? favorece BAJAS";
-          else if (windMph >= 10 && windOut) windBetting = "???? Viento afuera moderado";
+          let windBetting = "🟢 Viento neutro";
+          if (windMph >= 15 && windOut) windBetting = "🔴 Viento AFUERA — favorece ALTAS";
+          else if (windMph >= 15 && windIn) windBetting = "🔵 Viento ADENTRO — favorece BAJAS";
+          else if (windMph >= 10 && windOut) windBetting = "🟡 Viento afuera moderado";
           
           games.push({
             id: game.gamePk,
@@ -255,7 +255,7 @@ export default function App() {
     setMlbTotal(game.total_line || "");
   };
 
-  // ?????? PROMPTS ????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+  // ── PROMPTS ────────────────────────────────────────────────────────────────
   const buildTennisPrompt = () => `
 Eres un analista experto en apuestas de tenis. Analiza con criterio profesional real y datos actualizados de 2025-2026.
 
@@ -263,159 +263,159 @@ PARTIDO: ${p1.name} (#${p1.ranking}, ${p1.hand || "N/A"}) vs ${p2.name} (#${p2.r
 TORNEO: ${tournament} | SUPERFICIE: ${surface} | RONDA: ${round}
 CIRCUITO: ${tour}
 
-JUGADOR 1 ??? ${p1.name}:
-??? Forma reciente: ${p1.form}
-??? Rendimiento en ${surface}: ${p1.surfacePerf}
-??? Lesi??n/Estado f??sico: ${p1.injury || "Sin lesiones reportadas"}
-${p1.injuryGames ? `??? Partidos desde lesi??n: ${p1.injuryGames}` : ""}
-??? Momentum/Racha: ${p1.momentum || "No especificado"}
-??? Fortalezas: ${p1.strengths.join(", ") || "N/A"}
-??? Debilidades: ${p1.weaknesses.join(", ") || "N/A"}
+JUGADOR 1 — ${p1.name}:
+• Forma reciente: ${p1.form}
+• Rendimiento en ${surface}: ${p1.surfacePerf}
+• Lesión/Estado físico: ${p1.injury || "Sin lesiones reportadas"}
+${p1.injuryGames ? `• Partidos desde lesión: ${p1.injuryGames}` : ""}
+• Momentum/Racha: ${p1.momentum || "No especificado"}
+• Fortalezas: ${p1.strengths.join(", ") || "N/A"}
+• Debilidades: ${p1.weaknesses.join(", ") || "N/A"}
 
-JUGADOR 2 ??? ${p2.name}:
-??? Forma reciente: ${p2.form}
-??? Rendimiento en ${surface}: ${p2.surfacePerf}
-??? Lesi??n/Estado f??sico: ${p2.injury || "Sin lesiones reportadas"}
-${p2.injuryGames ? `??? Partidos desde lesi??n: ${p2.injuryGames}` : ""}
-??? Momentum/Racha: ${p2.momentum || "No especificado"}
-??? Fortalezas: ${p2.strengths.join(", ") || "N/A"}
-??? Debilidades: ${p2.weaknesses.join(", ") || "N/A"}
+JUGADOR 2 — ${p2.name}:
+• Forma reciente: ${p2.form}
+• Rendimiento en ${surface}: ${p2.surfacePerf}
+• Lesión/Estado físico: ${p2.injury || "Sin lesiones reportadas"}
+${p2.injuryGames ? `• Partidos desde lesión: ${p2.injuryGames}` : ""}
+• Momentum/Racha: ${p2.momentum || "No especificado"}
+• Fortalezas: ${p2.strengths.join(", ") || "N/A"}
+• Debilidades: ${p2.weaknesses.join(", ") || "N/A"}
 
-H2H: ${h2h.total || "?"} partidos ??? ${p1.name} gan?? ${h2h.p1Wins || "?"} ??? ??ltimos: ${h2h.recentFavor || "N/A"}
+H2H: ${h2h.total || "?"} partidos — ${p1.name} ganó ${h2h.p1Wins || "?"} — Últimos: ${h2h.recentFavor || "N/A"}
 ${h2hData ? `Datos H2H reales: ${JSON.stringify(h2hData).slice(0, 300)}` : ""}
 
 CUOTAS: ${p1.name}@${oddsP1 || "N/A"} | ${p2.name}@${oddsP2 || "N/A"} | Total juegos: ${totalGames || "N/A"}
 
-IMPORTANTE: Usa tu conocimiento actual de estos jugadores. Considera ranking actual, forma 2025-2026, lesiones conocidas, y el contexto de este torneo. Detecta si las cuotas tienen valor real o est??n infladas/desinfladas.
+IMPORTANTE: Usa tu conocimiento actual de estos jugadores. Considera ranking actual, forma 2025-2026, lesiones conocidas, y el contexto de este torneo. Detecta si las cuotas tienen valor real o están infladas/desinfladas.
 
-## AN??LISIS T??CTICO
-**Choque de estilos:** [c??mo se enfrentan sus juegos, fortaleza vs debilidad clave]
-**Ventaja en ${surface}:** [qui??n domina y por qu?? ??? s?? espec??fico con estad??sticas si las conoces]
-**Forma y momentum:** [qui??n llega mejor, racha reciente]
-**Lesiones e estado f??sico:** [impacto real en el rendimiento]
-**H2H y factor mental:** [peso del historial, ventaja psicol??gica]
-**Lectura de cuotas:** [??la cuota refleja la realidad? ??hay valor? ??l??nea sospechosa?]
+## ANÁLISIS TÁCTICO
+**Choque de estilos:** [cómo se enfrentan sus juegos, fortaleza vs debilidad clave]
+**Ventaja en ${surface}:** [quién domina y por qué — sé específico con estadísticas si las conoces]
+**Forma y momentum:** [quién llega mejor, racha reciente]
+**Lesiones e estado físico:** [impacto real en el rendimiento]
+**H2H y factor mental:** [peso del historial, ventaja psicológica]
+**Lectura de cuotas:** [¿la cuota refleja la realidad? ¿hay valor? ¿línea sospechosa?]
 
 ---
 
-## PRON??STICOS
+## PRONÓSTICOS
 
-### ???? GANADOR DIRECTO
+### 🏆 GANADOR DIRECTO
 **Favorito: [Nombre]** | Confianza: [Alta/Media/Baja]
-[Justificaci??n 2-3 l??neas]
+[Justificación 2-3 líneas]
 
-### ???? TOTAL DE JUEGOS
+### 📊 TOTAL DE JUEGOS
 **[Over/Under X.5]** | Confianza: [Alta/Media/Baja]
-[??Partido largo o r??pido? ??Por qu???]
+[¿Partido largo o rápido? ¿Por qué?]
 
-### ???? HANDICAP DE SETS
+### 🎯 HANDICAP DE SETS
 **[Ej: Alcaraz -1.5 sets o gana al menos 1 set]** | Confianza: [Alta/Media/Baja]
-[Justificaci??n]
+[Justificación]
 
-### ???? ??HAY UNDERDOG CON VALOR?
-[Si la cuota del favorito est?? inflada, se??ala el value bet en el underdog. Si no hay valor, dilo claramente]
+### 🐴 ¿HAY UNDERDOG CON VALOR?
+[Si la cuota del favorito está inflada, señala el value bet en el underdog. Si no hay valor, dilo claramente]
 
-### ??? MEJOR APUESTA DEL PARTIDO
-**Mercado:** [espec??fico] | **Selecci??n:** [exacta] | **Por qu?? tiene valor real**
+### ⭐ MEJOR APUESTA DEL PARTIDO
+**Mercado:** [específico] | **Selección:** [exacta] | **Por qué tiene valor real**
 
 ---
 
-## ?????? FACTORES DE RIESGO
-[2-3 factores que podr??an cambiar el resultado]
+## ⚠️ FACTORES DE RIESGO
+[2-3 factores que podrían cambiar el resultado]
 
 ---
 
 ## RESUMEN EJECUTIVO
-[2-3 l??neas. Ganador, c??mo, y la apuesta m??s inteligente]
+[2-3 líneas. Ganador, cómo, y la apuesta más inteligente]
 `;
 
   const buildMLBPrompt = () => {
     const game = selectedGame;
     return `
-Eres un analista experto en apuestas de b??isbol MLB con conocimiento actualizado de la temporada 2026.
+Eres un analista experto en apuestas de béisbol MLB con conocimiento actualizado de la temporada 2026.
 
 PARTIDO: ${awayTeam.team} (${awayTeam.record}) @ ${homeTeam.team} (${homeTeam.record})
 ESTADIO: ${game?.venue || "N/A"}
-HORA M??XICO: ${game?.time_mexico || "N/A"}
+HORA MÉXICO: ${game?.time_mexico || "N/A"}
 
-CLIMA: ${game?.weather?.condition || "N/A"} | Temp: ${game?.weather?.temp || "N/A"}??F
-VIENTO: ${game?.weather?.wind || "N/A"} ??? ${game?.weather?.wind_betting || ""}
+CLIMA: ${game?.weather?.condition || "N/A"} | Temp: ${game?.weather?.temp || "N/A"}°F
+VIENTO: ${game?.weather?.wind || "N/A"} — ${game?.weather?.wind_betting || ""}
 
-PITCHER LOCAL ??? ${homeTeam.pitcher}:
-??? ERA/Stats: ${homeTeam.pitcherEra || "N/A"}
-??? Forma reciente (??ltimas 3-5 salidas): ${homeTeam.recentForm || "No especificado"}
-??? vs Bateadores Zurdos: ${homeTeam.vsLHB || "N/A"}
-??? vs Bateadores Derechos: ${homeTeam.vsRHB || "N/A"}
+PITCHER LOCAL — ${homeTeam.pitcher}:
+• ERA/Stats: ${homeTeam.pitcherEra || "N/A"}
+• Forma reciente (últimas 3-5 salidas): ${homeTeam.recentForm || "No especificado"}
+• vs Bateadores Zurdos: ${homeTeam.vsLHB || "N/A"}
+• vs Bateadores Derechos: ${homeTeam.vsRHB || "N/A"}
 
-PITCHER VISITANTE ??? ${awayTeam.pitcher}:
-??? ERA/Stats: ${awayTeam.pitcherEra || "N/A"}
-??? Forma reciente: ${awayTeam.recentForm || "No especificado"}
-??? vs Bateadores Zurdos: ${awayTeam.vsLHB || "N/A"}
-??? vs Bateadores Derechos: ${awayTeam.vsRHB || "N/A"}
+PITCHER VISITANTE — ${awayTeam.pitcher}:
+• ERA/Stats: ${awayTeam.pitcherEra || "N/A"}
+• Forma reciente: ${awayTeam.recentForm || "No especificado"}
+• vs Bateadores Zurdos: ${awayTeam.vsLHB || "N/A"}
+• vs Bateadores Derechos: ${awayTeam.vsRHB || "N/A"}
 
 BULLPEN LOCAL: ${homeTeam.bullpenRating || "No especificado"}
 BULLPEN VISITANTE: ${awayTeam.bullpenRating || "No especificado"}
 
-LINEUP LOCAL ??? Forma reciente bateadores: ${homeTeam.recentForm || "N/A"}
-LINEUP VISITANTE ??? Forma reciente bateadores: ${awayTeam.recentForm || "N/A"}
+LINEUP LOCAL — Forma reciente bateadores: ${homeTeam.recentForm || "N/A"}
+LINEUP VISITANTE — Forma reciente bateadores: ${awayTeam.recentForm || "N/A"}
 
-L??NEAS DEL CASINO:
-??? ${homeTeam.team}: ${mlbOddsHome || "N/A"} | ${awayTeam.team}: ${mlbOddsAway || "N/A"}
-??? Total carreras: ${mlbTotal || "N/A"} (Over@${mlbOverOdds || "N/A"} / Under@${mlbUnderOdds || "N/A"})
+LÍNEAS DEL CASINO:
+• ${homeTeam.team}: ${mlbOddsHome || "N/A"} | ${awayTeam.team}: ${mlbOddsAway || "N/A"}
+• Total carreras: ${mlbTotal || "N/A"} (Over@${mlbOverOdds || "N/A"} / Under@${mlbUnderOdds || "N/A"})
 
-IMPORTANTE: Usa tu conocimiento de la temporada 2026. Considera el historial de estos pitchers, c??mo viene el equipo, el estadio (??favorece pitching o bateo?), y el viento. El viento es factor cr??tico ??? anal??zalo espec??ficamente.
+IMPORTANTE: Usa tu conocimiento de la temporada 2026. Considera el historial de estos pitchers, cómo viene el equipo, el estadio (¿favorece pitching o bateo?), y el viento. El viento es factor crítico — analízalo específicamente.
 
-## AN??LISIS DEL PARTIDO
+## ANÁLISIS DEL PARTIDO
 
-**Duelo de pitchers:** [qui??n tiene ventaja real y por qu?? ??? ERA, forma, matchup vs lineup rival]
-**Factor viento:** [impacto espec??fico en este partido ??? altas o bajas]
-**Bullpen:** [qui??n tiene mejor respaldo si el abridor sale temprano]
-**Lineup y bateadores calientes:** [qui??n viene bateando mejor]
-**Estadio:** [??Coors? ??Parque de pitching? Impacto en el total]
-**Lectura de cuotas:** [??hay valor? ??l??nea sospechosa? ??underdog con valor?]
+**Duelo de pitchers:** [quién tiene ventaja real y por qué — ERA, forma, matchup vs lineup rival]
+**Factor viento:** [impacto específico en este partido — altas o bajas]
+**Bullpen:** [quién tiene mejor respaldo si el abridor sale temprano]
+**Lineup y bateadores calientes:** [quién viene bateando mejor]
+**Estadio:** [¿Coors? ¿Parque de pitching? Impacto en el total]
+**Lectura de cuotas:** [¿hay valor? ¿línea sospechosa? ¿underdog con valor?]
 
 ---
 
-## PRON??STICOS MLB
+## PRONÓSTICOS MLB
 
-### ???? GANADOR (MONEYLINE)
+### 🏆 GANADOR (MONEYLINE)
 **Favorito: [Equipo]** | Confianza: [Alta/Media/Baja]
-[Justificaci??n 2-3 l??neas]
+[Justificación 2-3 líneas]
 
-### ???? TOTAL DE CARRERAS
+### 📊 TOTAL DE CARRERAS
 **[Over/Under X.5]** | Confianza: [Alta/Media/Baja]
-[Pitcher + viento + lineup + estadio ??? conclusi??n]
+[Pitcher + viento + lineup + estadio — conclusión]
 
-### ???? RUN LINE (-1.5)
+### 🎯 RUN LINE (-1.5)
 **[Equipo -1.5 o +1.5]** | Confianza: [Alta/Media/Baja]
-[??Dominio esperado o partido cerrado?]
+[¿Dominio esperado o partido cerrado?]
 
-### ???? ??HAY UNDERDOG CON VALOR?
-[Si el favorito est?? sobrevalorado por la cuota, se??ala el value bet. Muchas veces el underdog a +150/+180 tiene m??s valor real]
+### 🐴 ¿HAY UNDERDOG CON VALOR?
+[Si el favorito está sobrevalorado por la cuota, señala el value bet. Muchas veces el underdog a +150/+180 tiene más valor real]
 
-### ??? MEJOR APUESTA DEL PARTIDO
-**Mercado:** [exacto] | **Selecci??n:** [exacta] | **Por qu?? tiene valor**
+### ⭐ MEJOR APUESTA DEL PARTIDO
+**Mercado:** [exacto] | **Selección:** [exacta] | **Por qué tiene valor**
 
 ---
 
-## ?????? FACTORES DE RIESGO
-[2-3 factores: lesi??n de ??ltimo momento, cambio de pitcher, bullpen cansado, etc.]
+## ⚠️ FACTORES DE RIESGO
+[2-3 factores: lesión de último momento, cambio de pitcher, bullpen cansado, etc.]
 
 ---
 
 ## RESUMEN EJECUTIVO
-[2-3 l??neas. Qui??n gana, c??mo, y la apuesta m??s inteligente del partido]
+[2-3 líneas. Quién gana, cómo, y la apuesta más inteligente del partido]
 `;
   };
 
   const buildSectionPrompt = (type, sportType) => {
     const isTennis = sportType === "tennis";
     const typeLabels = {
-      mejordia: "MEJOR APUESTA DEL D??A",
-      combinada: "COMBINADA DEL D??A (2-3 picks)",
-      sonador: "SO??ADOR DEL D??A (parlay 3-4 picks alto riesgo)",
-      underdog: "UNDERDOGS DEL D??A (2-3 picks con value bet real)",
-      parlay: "PARLAY FAN??TICO (4-5 underdogs mezclados tenis + MLB)",
+      mejordia: "MEJOR APUESTA DEL DÍA",
+      combinada: "COMBINADA DEL DÍA (2-3 picks)",
+      sonador: "SOÑADOR DEL DÍA (parlay 3-4 picks alto riesgo)",
+      underdog: "UNDERDOGS DEL DÍA (2-3 picks con value bet real)",
+      parlay: "PARLAY FANÁTICO (4-5 underdogs mezclados tenis + MLB)",
     };
 
     if (sportType === "mlb" && mlbGames.length > 0) {
@@ -430,34 +430,34 @@ JUEGOS DE HOY:\n${gameList}
 ${type === "mejordia" ? "Elige LA mejor apuesta individual con mayor valor real. Considera pitchers, viento, cuotas." : ""}
 ${type === "combinada" ? "Crea una combinada de 2-3 picks seguros con buen balance riesgo/recompensa." : ""}
 ${type === "sonador" ? "Crea un parlay de 3-4 picks atrevidos con cuota alta 3.0+. Alto riesgo, alta recompensa." : ""}
-${type === "underdog" ? "Identifica 2-3 underdogs con valor real donde el favorito est?? sobrevalorado por las cuotas." : ""}
+${type === "underdog" ? "Identifica 2-3 underdogs con valor real donde el favorito está sobrevalorado por las cuotas." : ""}
 
-INSTRUCCI??N CR??TICA: Da picks DIRECTAMENTE sin disclaimers ni mencionar limitaciones de conocimiento. Analiza con datos reales de temporada 2026.
+INSTRUCCIÓN CRÍTICA: Da picks DIRECTAMENTE sin disclaimers ni mencionar limitaciones de conocimiento. Analiza con datos reales de temporada 2026.
 
-Para cada pick: partido, mercado exacto, selecci??n, cuota estimada, justificaci??n de 1-2 l??neas.
+Para cada pick: partido, mercado exacto, selección, cuota estimada, justificación de 1-2 líneas.
 Al final: cuota combinada estimada y nivel de confianza.`;
     }
 
     return `Eres analista experto en apuestas de tenis ${isTennis ? "ATP/WTA" : "y MLB"} temporada 2026. Da ${typeLabels[type]}.
 
-Analiza los partidos m??s importantes de hoy en los torneos activos (Roma ATP/WTA, Roland Garros preparaci??n, challengers de arcilla en Europa y Sudam??rica).
+Analiza los partidos más importantes de hoy en los torneos activos (Roma ATP/WTA, Roland Garros preparación, challengers de arcilla en Europa y Sudamérica).
 
 Considera para cada pick:
 - Ranking y forma actual 2026
-- Superficie y especializaci??n
+- Superficie y especialización
 - Lesiones conocidas
 - Cuotas de mercado y value bets
-- H2H hist??rico
+- H2H histórico
 
-${type === "mejordia" ? "Elige LA mejor apuesta individual del d??a. Justifica por qu?? tiene el mayor valor." : ""}
-${type === "combinada" ? "Crea combinada 2-3 picks. M??ximo riesgo moderado. Cuota total estimada 2.5-4.0." : ""}  
-${type === "sonador" ? "Parlay 3-4 picks atrevidos. Cuota m??nima 5.0. Solo apuesta el 1% de tu banca." : ""}
-${type === "underdog" ? "2-3 underdogs con valor real. El favorito est?? sobrevalorado. Cuotas +150 m??nimo." : ""}
-${type === "parlay" ? "PARLAY FAN??TICO: 4-5 underdogs mezclando tenis y MLB. Cuota objetivo 8.0+. M??ximo riesgo." : ""}
+${type === "mejordia" ? "Elige LA mejor apuesta individual del día. Justifica por qué tiene el mayor valor." : ""}
+${type === "combinada" ? "Crea combinada 2-3 picks. Máximo riesgo moderado. Cuota total estimada 2.5-4.0." : ""}  
+${type === "sonador" ? "Parlay 3-4 picks atrevidos. Cuota mínima 5.0. Solo apuesta el 1% de tu banca." : ""}
+${type === "underdog" ? "2-3 underdogs con valor real. El favorito está sobrevalorado. Cuotas +150 mínimo." : ""}
+${type === "parlay" ? "PARLAY FANÁTICO: 4-5 underdogs mezclando tenis y MLB. Cuota objetivo 8.0+. Máximo riesgo." : ""}
 
-INSTRUCCI??N CR??TICA: Da el an??lisis DIRECTAMENTE sin disclaimers, sin avisos sobre corte de conocimiento, sin mencionar limitaciones. Usa tu conocimiento de la temporada 2026 y da picks concretos con justificaci??n real. Si no tienes datos de un partido espec??fico, analiza bas??ndote en el historial conocido de los jugadores/equipos.
+INSTRUCCIÓN CRÍTICA: Da el análisis DIRECTAMENTE sin disclaimers, sin avisos sobre corte de conocimiento, sin mencionar limitaciones. Usa tu conocimiento de la temporada 2026 y da picks concretos con justificación real. Si no tienes datos de un partido específico, analiza basándote en el historial conocido de los jugadores/equipos.
 
-Para cada pick: deporte, partido, mercado, selecci??n, cuota estimada, justificaci??n concreta de 1-2 l??neas.
+Para cada pick: deporte, partido, mercado, selección, cuota estimada, justificación concreta de 1-2 líneas.
 Al final: cuota total combinada y nivel de confianza.`;
   };
 
@@ -472,7 +472,7 @@ Al final: cuota total combinada y nivel de confianza.`;
       });
       const data = await res.json();
       setAnalysis(data.texto || data.error || "Error.");
-    } catch { setAnalysis("??? Error de conexi??n."); }
+    } catch { setAnalysis("❌ Error de conexión."); }
     setLoadingAnalysis(false);
   };
 
@@ -488,7 +488,7 @@ Al final: cuota total combinada y nivel de confianza.`;
       });
       const data = await res.json();
       setSectionResult(r => ({ ...r, [key]: data.texto || data.error || "Error." }));
-    } catch { setSectionResult(r => ({ ...r, [key]: "??? Error." })); }
+    } catch { setSectionResult(r => ({ ...r, [key]: "❌ Error." })); }
     setLoadingSection(l => ({ ...l, [key]: false }));
   };
 
@@ -558,16 +558,16 @@ Al final: cuota total combinada y nivel de confianza.`;
 
   const ResultBox = ({ result, title }) => result ? (
     <Card>
-      <SectionHead>???? {title}</SectionHead>
+      <SectionHead>📋 {title}</SectionHead>
       {renderMd(result)}
     </Card>
   ) : null;
 
   const TABS = [
-    { id:"hoy", label:"???? Inicio" },
-    { id:"analisis", label:"???? An??lisis" },
-    { id:"picks", label:"??? Picks del D??a" },
-    { id:"bankroll", label:"???? Bankroll" },
+    { id:"hoy", label:"🏠 Inicio" },
+    { id:"analisis", label:"🔍 Análisis" },
+    { id:"picks", label:"⭐ Picks del Día" },
+    { id:"bankroll", label:"💰 Bankroll" },
   ];
 
   const stats = calcStats();
@@ -592,13 +592,13 @@ Al final: cuota total combinada y nivel de confianza.`;
       <div style={{ background:"#14532d", padding:0 }}>
         <div style={{ maxWidth:1040, margin:"0 auto", padding:"14px 20px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
           <div style={{ display:"flex", alignItems:"center", gap:12 }}>
-            <div style={{ fontSize:28, background:G, borderRadius:"50%", width:46, height:46, display:"flex", alignItems:"center", justifyContent:"center" }}>????</div>
+            <div style={{ fontSize:28, background:G, borderRadius:"50%", width:46, height:46, display:"flex", alignItems:"center", justifyContent:"center" }}>🏆</div>
             <div>
               <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:22, fontWeight:700, color:"#fff", letterSpacing:2 }}>PRONOSTICADOR AI</div>
-              <div style={{ fontSize:11, color:"rgba(255,255,255,.6)", letterSpacing:.5 }}>Tenis ?? MLB ?? An??lisis con Inteligencia Artificial</div>
+              <div style={{ fontSize:11, color:"rgba(255,255,255,.6)", letterSpacing:.5 }}>Tenis · MLB · Análisis con Inteligencia Artificial</div>
             </div>
           </div>
-          <div style={{ background:"rgba(255,255,255,.1)", color:"#86efac", fontSize:11, fontWeight:700, padding:"4px 12px", borderRadius:20, letterSpacing:1 }}>??? TEMPORADA 2026</div>
+          <div style={{ background:"rgba(255,255,255,.1)", color:"#86efac", fontSize:11, fontWeight:700, padding:"4px 12px", borderRadius:20, letterSpacing:1 }}>● TEMPORADA 2026</div>
         </div>
       </div>
 
@@ -614,14 +614,14 @@ Al final: cuota total combinada y nivel de confianza.`;
 
       <div style={{ maxWidth:1040, margin:"0 auto", padding:"20px 16px" }}>
 
-        {/* ?????? INICIO ?????? */}
+        {/* ══ INICIO ══ */}
         {tab === "hoy" && (
           <div style={{ animation:"fadeUp .3s ease" }}>
             {/* Sport selector */}
             <Card>
-              <SectionHead>???? SELECCIONA EL DEPORTE</SectionHead>
+              <SectionHead>🎯 SELECCIONA EL DEPORTE</SectionHead>
               <div style={{ display:"flex", gap:12 }}>
-                {[["tennis","???? Tenis"],["mlb","??? MLB"]].map(([id,label]) => (
+                {[["tennis","🎾 Tenis"],["mlb","⚾ MLB"]].map(([id,label]) => (
                   <button key={id} onClick={() => setSport(id)}
                     style={{ flex:1, padding:16, border:`2px solid ${sport===id ? G : "#ddd"}`, borderRadius:10, background: sport===id ? "#dcfce7" : "#fff", cursor:"pointer", fontFamily:"'Oswald',sans-serif", fontSize:20, fontWeight:700, color: sport===id ? G : "#888", letterSpacing:2, transition:"all .2s" }}>
                     {label}
@@ -633,13 +633,13 @@ Al final: cuota total combinada y nivel de confianza.`;
             {/* MLB Games */}
             {sport === "mlb" && (
               <Card>
-                <SectionHead>??? JUEGOS MLB DE HOY</SectionHead>
+                <SectionHead>⚾ JUEGOS MLB DE HOY</SectionHead>
                 <GreenBtn onClick={fetchMLBGames} disabled={loadingMLB} style={{ marginBottom:16 }}>
-                  {loadingMLB ? "??? Cargando... (puede tardar 30-60 seg)" : "???? CARGAR JUEGOS MLB DE HOY"}
+                  {loadingMLB ? "⏳ Cargando... (puede tardar 30-60 seg)" : "🔄 CARGAR JUEGOS MLB DE HOY"}
                 </GreenBtn>
                 {mlbGames.length === 0 && !loadingMLB && (
                   <div style={{ color:"#888", fontSize:13, padding:"12px 0" }}>
-                    Presiona el bot??n para cargar los juegos. Si tarda, Render est?? despertando (plan gratuito).
+                    Presiona el botón para cargar los juegos. Si tarda, Render está despertando (plan gratuito).
                   </div>
                 )}
                 {mlbGames.length > 0 && (
@@ -648,7 +648,7 @@ Al final: cuota total combinada y nivel de confianza.`;
                       <div key={i} onClick={() => { selectMLBGame(g); setTab("analisis"); }}
                         style={{ border:`1px solid ${selectedGame?.id === g.id ? G : "#e8e8e8"}`, background: selectedGame?.id === g.id ? "#f0fdf4" : "#fafafa", borderRadius:8, padding:"12px 14px", marginBottom:8, cursor:"pointer", transition:"all .15s" }}>
                         <div style={{ fontSize:11, fontWeight:700, color:"#888", letterSpacing:.5, textTransform:"uppercase", marginBottom:6 }}>
-                          {g.venue} ?? {g.time_mexico} MX {g.madrugada ? "?????? Madrugada" : ""}
+                          {g.venue} · {g.time_mexico} MX {g.madrugada ? "⚠️ Madrugada" : ""}
                         </div>
                         <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:6 }}>
                           <div style={{ flex:1 }}>
@@ -661,7 +661,7 @@ Al final: cuota total combinada y nivel de confianza.`;
                             <div style={{ fontSize:12, color:"#666" }}>P: {g.home_pitcher}</div>
                           </div>
                         </div>
-                        {g.weather?.wind_betting && g.weather.wind_betting !== "???? Viento neutro" && (
+                        {g.weather?.wind_betting && g.weather.wind_betting !== "🟢 Viento neutro" && (
                           <div style={{ fontSize:12, fontWeight:600, marginTop:4 }}>{g.weather.wind_betting}</div>
                         )}
                       </div>
@@ -674,18 +674,18 @@ Al final: cuota total combinada y nivel de confianza.`;
             {/* Tennis tournaments */}
             {sport === "tennis" && (
               <Card>
-                <SectionHead>???? TENIS ??? AN??LISIS DE PARTIDO</SectionHead>
-                <p style={{ color:"#666", fontSize:13, marginBottom:16 }}>Selecciona los jugadores y configura el partido para obtener un an??lisis completo con datos reales de la temporada 2026.</p>
-                <GreenBtn onClick={() => setTab("analisis")}>???? IR AL AN??LISIS DE PARTIDO</GreenBtn>
+                <SectionHead>🎾 TENIS — ANÁLISIS DE PARTIDO</SectionHead>
+                <p style={{ color:"#666", fontSize:13, marginBottom:16 }}>Selecciona los jugadores y configura el partido para obtener un análisis completo con datos reales de la temporada 2026.</p>
+                <GreenBtn onClick={() => setTab("analisis")}>🔍 IR AL ANÁLISIS DE PARTIDO</GreenBtn>
               </Card>
             )}
 
             {/* Quick stats */}
             {bets.length > 0 && (
               <Card>
-                <SectionHead>???? MI RENDIMIENTO</SectionHead>
+                <SectionHead>📊 MI RENDIMIENTO</SectionHead>
                 <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:10 }}>
-                  {[["??? Ganadas", stats.won, "#4ade80"],["??? Perdidas", stats.lost, "#f87171"],["???? Acierto", `${stats.pct}%`, "#facc15"],["???? ROI", `${stats.roi}%`, stats.roi >= 0 ? "#4ade80" : "#f87171"],["???? Banca", `$${stats.bancaActual.toFixed(0)}`, "#fff"],["???? Profit", `${stats.profit >= 0 ? "+" : ""}$${stats.profit.toFixed(0)}`, stats.profit >= 0 ? "#4ade80" : "#f87171"]].map(([l,v,c]) => (
+                  {[["✅ Ganadas", stats.won, "#4ade80"],["❌ Perdidas", stats.lost, "#f87171"],["🎯 Acierto", `${stats.pct}%`, "#facc15"],["📈 ROI", `${stats.roi}%`, stats.roi >= 0 ? "#4ade80" : "#f87171"],["💰 Banca", `$${stats.bancaActual.toFixed(0)}`, "#fff"],["📊 Profit", `${stats.profit >= 0 ? "+" : ""}$${stats.profit.toFixed(0)}`, stats.profit >= 0 ? "#4ade80" : "#f87171"]].map(([l,v,c]) => (
                     <div key={l} style={{ background:"#14532d", borderRadius:8, padding:"12px 14px" }}>
                       <div style={{ fontSize:11, color:"rgba(255,255,255,.6)", marginBottom:4 }}>{l}</div>
                       <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:20, fontWeight:700, color:c }}>{v}</div>
@@ -697,12 +697,12 @@ Al final: cuota total combinada y nivel de confianza.`;
           </div>
         )}
 
-        {/* ?????? AN??LISIS ?????? */}
+        {/* ══ ANÁLISIS ══ */}
         {tab === "analisis" && (
           <div style={{ animation:"fadeUp .3s ease" }}>
             {/* Sport toggle */}
             <div style={{ display:"flex", gap:8, marginBottom:16 }}>
-              {[["tennis","???? Tenis"],["mlb","??? MLB"]].map(([id,label]) => (
+              {[["tennis","🎾 Tenis"],["mlb","⚾ MLB"]].map(([id,label]) => (
                 <button key={id} onClick={() => setSport(id)}
                   style={{ padding:"8px 18px", border:`2px solid ${sport===id ? G : "#ddd"}`, borderRadius:20, background: sport===id ? "#dcfce7" : "#fff", cursor:"pointer", fontSize:13, fontWeight:700, color: sport===id ? G : "#888" }}>
                   {label}
@@ -710,11 +710,11 @@ Al final: cuota total combinada y nivel de confianza.`;
               ))}
             </div>
 
-            {/* ?????? TENNIS ANALYSIS ?????? */}
+            {/* ── TENNIS ANALYSIS ── */}
             {sport === "tennis" && (
               <>
                 <Card>
-                  <SectionHead>???? CONFIGURAR PARTIDO</SectionHead>
+                  <SectionHead>🎾 CONFIGURAR PARTIDO</SectionHead>
                   <div style={{ display:"flex", gap:10, marginBottom:16 }}>
                     {["ATP","WTA"].map(t => (
                       <button key={t} onClick={() => { setTour(t); setP1(emptyP()); setP2(emptyP()); setP1Manual(false); setP2Manual(false); }}
@@ -731,7 +731,7 @@ Al final: cuota total combinada y nivel de confianza.`;
                     <div>
                       <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:6 }}>Superficie</label>
                       <select style={{ width:"100%", padding:"9px 12px", border:"1px solid #ddd", borderRadius:6, fontSize:13, background:"#fff", cursor:"pointer" }} value={surface} onChange={e => setSurface(e.target.value)}>
-                        <option value="">??? Seleccionar ???</option>
+                        <option value="">— Seleccionar —</option>
                         <option>Arcilla</option><option>Pista Dura</option><option>Pista Dura Indoor</option><option>Hierba</option>
                       </select>
                     </div>
@@ -746,7 +746,7 @@ Al final: cuota total combinada y nivel de confianza.`;
 
                 {/* Players */}
                 <Card>
-                  <SectionHead>???? JUGADORES</SectionHead>
+                  <SectionHead>👤 JUGADORES</SectionHead>
                   <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 }}>
                     {[[p1,setP1,1,p1Manual,setP1Manual],[p2,setP2,2,p2Manual,setP2Manual]].map(([pl,setPl,num,isManual,setManual]) => (
                       <div key={num} style={{ background:"#f9fafb", border:"1px solid #e8e8e8", borderRadius:8, padding:14 }}>
@@ -755,7 +755,7 @@ Al final: cuota total combinada y nivel de confianza.`;
                         <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:6 }}>Seleccionar</label>
                         <select style={{ width:"100%", padding:"9px 12px", border:"1px solid #ddd", borderRadius:6, fontSize:13, background:"#fff", marginBottom:8 }}
                           value={isManual ? "Otro / Manual" : pl.name} onChange={e => selectPlayer(num, e.target.value)}>
-                          <option value="">??? Seleccionar ???</option>
+                          <option value="">— Seleccionar —</option>
                           {(tour === "ATP" ? ATP : WTA).map(p => <option key={p.name} value={p.name}>{p.flag} {p.name}{p.ranking ? ` (#${p.ranking})` : ""}</option>)}
                         </select>
 
@@ -764,18 +764,18 @@ Al final: cuota total combinada y nivel de confianza.`;
                             placeholder="Nombre del jugador" value={pl.name} onChange={e => setPl(p => ({ ...p, name: e.target.value }))} />
                         )}
 
-                        {pl.ranking && <div style={{ background:"#dcfce7", color:GD, fontSize:12, fontWeight:700, padding:"5px 10px", borderRadius:6, marginBottom:10 }}>#{pl.ranking} ?? {pl.hand}</div>}
+                        {pl.ranking && <div style={{ background:"#dcfce7", color:GD, fontSize:12, fontWeight:700, padding:"5px 10px", borderRadius:6, marginBottom:10 }}>#{pl.ranking} · {pl.hand}</div>}
 
                         <div style={{ marginBottom:10 }}>
-                          <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:6 }}>Lesi??n / Estado f??sico</label>
+                          <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:6 }}>Lesión / Estado físico</label>
                           <input style={{ width:"100%", padding:"8px 12px", border:"1px solid #ddd", borderRadius:6, fontSize:12 }}
-                            placeholder="Ej: Lesi??n de rodilla ??? regres?? hace 3 partidos" value={pl.injury} onChange={e => setPl(p => ({ ...p, injury: e.target.value }))} />
+                            placeholder="Ej: Lesión de rodilla — regresó hace 3 partidos" value={pl.injury} onChange={e => setPl(p => ({ ...p, injury: e.target.value }))} />
                         </div>
 
                         <div style={{ marginBottom:10 }}>
                           <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:6 }}>Momentum / Racha</label>
                           <input style={{ width:"100%", padding:"8px 12px", border:"1px solid #ddd", borderRadius:6, fontSize:12 }}
-                            placeholder="Ej: Gan?? Roland Garros 2025, viene en racha" value={pl.momentum} onChange={e => setPl(p => ({ ...p, momentum: e.target.value }))} />
+                            placeholder="Ej: Ganó Roland Garros 2025, viene en racha" value={pl.momentum} onChange={e => setPl(p => ({ ...p, momentum: e.target.value }))} />
                         </div>
 
                         <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:6 }}>Forma reciente</label>
@@ -788,12 +788,12 @@ Al final: cuota total combinada y nivel de confianza.`;
                           {SURF_OPTS.map(o => <Chip key={o} label={o} active={pl.surfacePerf===o} onClick={() => setPl(p => ({ ...p, surfacePerf:o }))} sm />)}
                         </div>
 
-                        <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:6 }}>??? Fortalezas</label>
+                        <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:6 }}>✅ Fortalezas</label>
                         <div style={{ display:"flex", flexWrap:"wrap", gap:4, marginBottom:10 }}>
                           {STRENGTHS.map(o => <Chip key={o} label={o} active={pl.strengths.includes(o)} onClick={() => toggle(setPl,"strengths",o)} sm />)}
                         </div>
 
-                        <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:6 }}>??? Debilidades</label>
+                        <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:6 }}>❌ Debilidades</label>
                         <div style={{ display:"flex", flexWrap:"wrap", gap:4 }}>
                           {WEAKNESSES.map(o => <Chip key={o} label={o} active={pl.weaknesses.includes(o)} onClick={() => toggle(setPl,"weaknesses",o)} sm />)}
                         </div>
@@ -804,11 +804,11 @@ Al final: cuota total combinada y nivel de confianza.`;
 
                 {/* H2H */}
                 <Card>
-                  <SectionHead>?????? HEAD TO HEAD</SectionHead>
+                  <SectionHead>⚔️ HEAD TO HEAD</SectionHead>
                   <GreenBtn onClick={fetchH2H} disabled={loadingH2H || !p1.name || !p2.name} style={{ marginBottom:12, opacity:(!p1.name||!p2.name) ? 0.5 : 1 }}>
-                    {loadingH2H ? "??? Buscando H2H..." : "???? JALAR H2H AUTOM??TICO"}
+                    {loadingH2H ? "⚡ Buscando H2H..." : "🔄 JALAR H2H AUTOMÁTICO"}
                   </GreenBtn>
-                  {h2hData && <div style={{ background:"#dcfce7", borderRadius:6, padding:"8px 12px", fontSize:13, color:GD, marginBottom:12 }}>??? H2H real obtenido de la API</div>}
+                  {h2hData && <div style={{ background:"#dcfce7", borderRadius:6, padding:"8px 12px", fontSize:13, color:GD, marginBottom:12 }}>✅ H2H real obtenido de la API</div>}
                   <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 2fr", gap:12 }}>
                     {[["Partidos totales","total"],["Victorias de "+p1.name.split(" ")[0],"p1Wins"]].map(([lbl,key]) => (
                       <div key={key}>
@@ -817,7 +817,7 @@ Al final: cuota total combinada y nivel de confianza.`;
                       </div>
                     ))}
                     <div>
-                      <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:6 }}>??ltimos enfrentamientos</label>
+                      <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:6 }}>Últimos enfrentamientos</label>
                       <div style={{ display:"flex", gap:6 }}>
                         {[p1.name.split(" ")[0]||"J1", p2.name.split(" ")[0]||"J2", "Parejo"].map(o => (
                           <Chip key={o} label={o} active={h2h.recentFavor===o} onClick={() => setH2H(p => ({ ...p, recentFavor:o }))} sm />
@@ -829,7 +829,7 @@ Al final: cuota total combinada y nivel de confianza.`;
 
                 {/* Odds */}
                 <Card>
-                  <SectionHead>???? CUOTAS (de Playdoit u otro casino)</SectionHead>
+                  <SectionHead>💰 CUOTAS (de Playdoit u otro casino)</SectionHead>
                   <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:12 }}>
                     {[[`Cuota ${p1.name.split(" ")[0]||"J1"}`,oddsP1,setOddsP1,"1.75"],[`Cuota ${p2.name.split(" ")[0]||"J2"}`,oddsP2,setOddsP2,"2.10"],["Total Juegos",totalGames,setTotalGames,"22.5"]].map(([lbl,val,set,ph]) => (
                       <div key={lbl}>
@@ -842,38 +842,38 @@ Al final: cuota total combinada y nivel de confianza.`;
               </>
             )}
 
-            {/* ?????? MLB ANALYSIS ?????? */}
+            {/* ── MLB ANALYSIS ── */}
             {sport === "mlb" && (
               <>
                 {!selectedGame && (
                   <Card>
-                    <SectionHead>??? SELECCIONAR PARTIDO MLB</SectionHead>
-                    <p style={{ color:"#666", fontSize:13, marginBottom:12 }}>Ve a Inicio ??? carga los juegos de hoy y selecciona uno, o configura manualmente.</p>
-                    <GreenBtn onClick={() => setTab("hoy")}>??? IR A CARGAR JUEGOS</GreenBtn>
+                    <SectionHead>⚾ SELECCIONAR PARTIDO MLB</SectionHead>
+                    <p style={{ color:"#666", fontSize:13, marginBottom:12 }}>Ve a Inicio → carga los juegos de hoy y selecciona uno, o configura manualmente.</p>
+                    <GreenBtn onClick={() => setTab("hoy")}>← IR A CARGAR JUEGOS</GreenBtn>
                   </Card>
                 )}
 
                 {selectedGame && (
                   <Card>
-                    <SectionHead>??? PARTIDO SELECCIONADO</SectionHead>
+                    <SectionHead>⚾ PARTIDO SELECCIONADO</SectionHead>
                     <div style={{ background:"#f0fdf4", border:`1px solid ${G}`, borderRadius:8, padding:"12px 16px", marginBottom:16 }}>
                       <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:18, fontWeight:700, textAlign:"center" }}>
                         {selectedGame.away_team} @ {selectedGame.home_team}
                       </div>
                       <div style={{ textAlign:"center", fontSize:13, color:"#666", marginTop:4 }}>
-                        {selectedGame.venue} ?? {selectedGame.time_mexico} MX ?? {selectedGame.weather?.wind_betting}
+                        {selectedGame.venue} · {selectedGame.time_mexico} MX · {selectedGame.weather?.wind_betting}
                       </div>
                     </div>
                   </Card>
                 )}
 
                 <Card>
-                  <SectionHead>??? DATOS DE LOS EQUIPOS</SectionHead>
+                  <SectionHead>⚾ DATOS DE LOS EQUIPOS</SectionHead>
                   <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 }}>
-                    {[[homeTeam,setHomeTeam,"???? LOCAL"],[awayTeam,setAwayTeam,"?????? VISITANTE"]].map(([team,setTeam,label]) => (
+                    {[[homeTeam,setHomeTeam,"🏠 LOCAL"],[awayTeam,setAwayTeam,"✈️ VISITANTE"]].map(([team,setTeam,label]) => (
                       <div key={label} style={{ background:"#f9fafb", border:"1px solid #eee", borderRadius:8, padding:14 }}>
                         <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:14, fontWeight:700, color:GD, marginBottom:10, paddingBottom:8, borderBottom:"1px solid #eee" }}>{label}</div>
-                        {[["Equipo","team","Ej: Los Angeles Dodgers"],["R??cord (V-D)","record","28-14"],["Pitcher titular","pitcher","Nombre del pitcher"],["ERA / Stats del pitcher","pitcherEra","ERA 2.45 / WHIP 0.98"],["Bullpen (Bueno/Regular/D??bil)","bullpenRating","Ej: Bueno ??? cerrador Chapman en forma"],["Forma reciente bateadores","recentForm","Ej: .285 AVG ??ltimos 10 d??as"]].map(([lbl,key,ph]) => (
+                        {[["Equipo","team","Ej: Los Angeles Dodgers"],["Récord (V-D)","record","28-14"],["Pitcher titular","pitcher","Nombre del pitcher"],["ERA / Stats del pitcher","pitcherEra","ERA 2.45 / WHIP 0.98"],["Bullpen (Bueno/Regular/Débil)","bullpenRating","Ej: Bueno — cerrador Chapman en forma"],["Forma reciente bateadores","recentForm","Ej: .285 AVG últimos 10 días"]].map(([lbl,key,ph]) => (
                           <div key={key} style={{ marginBottom:10 }}>
                             <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:5 }}>{lbl}</label>
                             <input style={{ width:"100%", padding:"8px 12px", border:"1px solid #ddd", borderRadius:6, fontSize:12 }}
@@ -886,7 +886,7 @@ Al final: cuota total combinada y nivel de confianza.`;
                 </Card>
 
                 <Card>
-                  <SectionHead>???? L??NEAS Y CUOTAS MLB</SectionHead>
+                  <SectionHead>💰 LÍNEAS Y CUOTAS MLB</SectionHead>
                   <div style={{ display:"grid", gridTemplateColumns:"repeat(5,1fr)", gap:10 }}>
                     {[["Cuota Local",mlbOddsHome,setMlbOddsHome,"-150"],["Cuota Visitante",mlbOddsAway,setMlbOddsAway,"+130"],["Total Carreras",mlbTotal,setMlbTotal,"8.5"],["Cuota Over",mlbOverOdds,setMlbOverOdds,"-110"],["Cuota Under",mlbUnderOdds,setMlbUnderOdds,"-110"]].map(([lbl,val,set,ph]) => (
                       <div key={lbl}>
@@ -911,22 +911,22 @@ Al final: cuota total combinada y nivel de confianza.`;
                 </div>
               )}
               <GreenBtn onClick={runAnalysis} disabled={loadingAnalysis}>
-                {loadingAnalysis ? "??? Analizando..." : "???? GENERAR PRON??STICO CON IA"}
+                {loadingAnalysis ? "⚡ Analizando..." : "🔍 GENERAR PRONÓSTICO CON IA"}
               </GreenBtn>
             </div>
 
-            {loadingAnalysis && <LoadBox text="Analizando partido con IA ??? datos 2026..." />}
-            <ResultBox result={analysis} title={sport === "tennis" ? "PRON??STICO DE TENIS" : "PRON??STICO MLB"} />
+            {loadingAnalysis && <LoadBox text="Analizando partido con IA — datos 2026..." />}
+            <ResultBox result={analysis} title={sport === "tennis" ? "PRONÓSTICO DE TENIS" : "PRONÓSTICO MLB"} />
           </div>
         )}
 
-        {/* ?????? PICKS DEL D??A ?????? */}
+        {/* ══ PICKS DEL DÍA ══ */}
         {tab === "picks" && (
           <div style={{ animation:"fadeUp .3s ease" }}>
             <Card>
-              <SectionHead>???? SELECCIONA EL DEPORTE PARA LOS PICKS</SectionHead>
+              <SectionHead>🎯 SELECCIONA EL DEPORTE PARA LOS PICKS</SectionHead>
               <div style={{ display:"flex", gap:8, marginBottom:0 }}>
-                {[["tennis","????"],["mlb","???"],["mix","???? Mix"]].map(([id,label]) => (
+                {[["tennis","🎾"],["mlb","⚾"],["mix","🌎 Mix"]].map(([id,label]) => (
                   <button key={id} onClick={() => setSport(id === "mix" ? "mix" : id)}
                     style={{ flex:1, padding:"10px", border:`2px solid ${sport===id ? G : "#ddd"}`, borderRadius:8, background: sport===id ? "#dcfce7" : "#fff", cursor:"pointer", fontFamily:"'Oswald',sans-serif", fontSize:16, fontWeight:700, color: sport===id ? G : "#888" }}>
                     {label}
@@ -936,11 +936,11 @@ Al final: cuota total combinada y nivel de confianza.`;
             </Card>
 
             {[
-              { key:"mejordia", icon:"???", title:"MEJOR APUESTA DEL D??A", desc:"La apuesta individual con mayor valor real y confianza." },
-              { key:"combinada", icon:"????", title:"COMBINADA DEL D??A", desc:"2-3 picks seguros con buen balance riesgo/recompensa. Cuota estimada 2.5-4.0." },
-              { key:"underdog", icon:"????", title:"UNDERDOGS DEL D??A", desc:"2-3 picks donde el favorito est?? sobrevalorado. Value bets reales." },
-              { key:"sonador", icon:"????", title:"SO??ADOR DEL D??A", desc:"3-4 picks de mayor riesgo. Cuota alta. Solo apuesta el 1% de tu banca." },
-              { key:"parlay", icon:"????", title:"PARLAY FAN??TICO", desc:"4-5 underdogs mezclados tenis + MLB. Cuota objetivo 8.0+. M??ximo riesgo." },
+              { key:"mejordia", icon:"⭐", title:"MEJOR APUESTA DEL DÍA", desc:"La apuesta individual con mayor valor real y confianza." },
+              { key:"combinada", icon:"🔗", title:"COMBINADA DEL DÍA", desc:"2-3 picks seguros con buen balance riesgo/recompensa. Cuota estimada 2.5-4.0." },
+              { key:"underdog", icon:"🐴", title:"UNDERDOGS DEL DÍA", desc:"2-3 picks donde el favorito está sobrevalorado. Value bets reales." },
+              { key:"sonador", icon:"🚀", title:"SOÑADOR DEL DÍA", desc:"3-4 picks de mayor riesgo. Cuota alta. Solo apuesta el 1% de tu banca." },
+              { key:"parlay", icon:"💣", title:"PARLAY FANÁTICO", desc:"4-5 underdogs mezclados tenis + MLB. Cuota objetivo 8.0+. Máximo riesgo." },
             ].map(({ key, icon, title, desc }) => {
               const sportKey = sport === "mix" ? "tennis" : sport;
               const resultKey = `${key}_${sportKey}`;
@@ -950,11 +950,11 @@ Al final: cuota total combinada y nivel de confianza.`;
                   <p style={{ color:"#666", fontSize:13, marginBottom:14 }}>{desc}</p>
                   {key === "mejordia" && sport === "mlb" && mlbGames.length === 0 && (
                     <div style={{ background:"#fffbeb", border:"1px solid #fde68a", borderRadius:6, padding:"8px 12px", fontSize:13, color:"#92400e", marginBottom:12 }}>
-                      ?????? Carga los juegos MLB en Inicio primero para mejor an??lisis
+                      ⚠️ Carga los juegos MLB en Inicio primero para mejor análisis
                     </div>
                   )}
                   <GreenBtn onClick={() => runSection(key, sportKey)} disabled={loadingSection[resultKey]}>
-                    {loadingSection[resultKey] ? "??? Analizando..." : `${icon} GENERAR ${title}`}
+                    {loadingSection[resultKey] ? "⚡ Analizando..." : `${icon} GENERAR ${title}`}
                   </GreenBtn>
                   {loadingSection[resultKey] && <LoadBox text={`Analizando partidos de ${sportKey === "mlb" ? "MLB" : "tenis"}...`} />}
                   <ResultBox result={sectionResult[resultKey]} title={title} />
@@ -964,12 +964,12 @@ Al final: cuota total combinada y nivel de confianza.`;
           </div>
         )}
 
-        {/* ?????? BANKROLL ?????? */}
+        {/* ══ BANKROLL ══ */}
         {tab === "bankroll" && (
           <div style={{ animation:"fadeUp .3s ease" }}>
             {!bancaSet ? (
               <Card>
-                <SectionHead>???? CONFIGURAR BANCA INICIAL</SectionHead>
+                <SectionHead>💰 CONFIGURAR BANCA INICIAL</SectionHead>
                 <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:8 }}>Monto inicial (MXN)</label>
                 <input 
                   style={{ width:"100%", padding:14, border:"1px solid #ddd", borderRadius:8, fontSize:22, fontWeight:700, marginBottom:12 }} 
@@ -984,7 +984,7 @@ Al final: cuota total combinada y nivel de confianza.`;
             ) : (
               <>
                 <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:10, marginBottom:16 }}>
-                  {[["???? Banca Inicial",`$${parseFloat(banca).toLocaleString()} MXN`,"#fff"],["???? Banca Actual",`$${stats.bancaActual.toFixed(0)} MXN`, stats.profit>=0?"#4ade80":"#f87171"],["??? Ganadas",stats.won,"#4ade80"],["??? Perdidas",stats.lost,"#f87171"],["???? % Acierto",`${stats.pct}%`,"#facc15"],["???? ROI",`${stats.roi}%`,stats.roi>=0?"#4ade80":"#f87171"]].map(([lbl,val,col]) => (
+                  {[["💰 Banca Inicial",`$${parseFloat(banca).toLocaleString()} MXN`,"#fff"],["📈 Banca Actual",`$${stats.bancaActual.toFixed(0)} MXN`, stats.profit>=0?"#4ade80":"#f87171"],["✅ Ganadas",stats.won,"#4ade80"],["❌ Perdidas",stats.lost,"#f87171"],["🎯 % Acierto",`${stats.pct}%`,"#facc15"],["📊 ROI",`${stats.roi}%`,stats.roi>=0?"#4ade80":"#f87171"]].map(([lbl,val,col]) => (
                     <div key={lbl} style={{ background:"#14532d", borderRadius:10, padding:"14px 16px" }}>
                       <div style={{ fontSize:11, color:"rgba(255,255,255,.6)", fontWeight:700, letterSpacing:.5, marginBottom:6 }}>{lbl}</div>
                       <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:20, fontWeight:700, color:col }}>{val}</div>
@@ -995,14 +995,14 @@ Al final: cuota total combinada y nivel de confianza.`;
                 {/* Efectividad por tipo */}
                 {Object.keys(tipos).length > 0 && (
                   <Card>
-                    <SectionHead>???? EFECTIVIDAD POR SECCI??N</SectionHead>
+                    <SectionHead>📊 EFECTIVIDAD POR SECCIÓN</SectionHead>
                     {Object.entries(tipos).map(([tipo, d]) => (
                       <div key={tipo} style={{ display:"flex", alignItems:"center", gap:10, marginBottom:10 }}>
                         <span style={{ fontSize:12, fontWeight:600, minWidth:160 }}>{tipo}</span>
                         <div style={{ flex:1, height:8, background:"#e8e8e8", borderRadius:4, overflow:"hidden" }}>
                           <div style={{ height:"100%", background:G, width:`${d.pct}%`, borderRadius:4 }} />
                         </div>
-                        <span style={{ fontSize:12, fontWeight:700, color:GD, minWidth:80, textAlign:"right" }}>{d.g}G ?? {d.p}P ?? {d.pct}%</span>
+                        <span style={{ fontSize:12, fontWeight:700, color:GD, minWidth:80, textAlign:"right" }}>{d.g}G · {d.p}P · {d.pct}%</span>
                       </div>
                     ))}
                   </Card>
@@ -1010,7 +1010,7 @@ Al final: cuota total combinada y nivel de confianza.`;
 
                 {/* Add bet */}
                 <Card>
-                  <SectionHead>??? REGISTRAR APUESTA</SectionHead>
+                  <SectionHead>➕ REGISTRAR APUESTA</SectionHead>
                   <div style={{ display:"grid", gridTemplateColumns:"2fr 2fr 1fr 1fr", gap:10, marginBottom:10 }}>
                     {[["Partido","partido","Sinner vs Alcaraz"],["Pick / Mercado","pick","Sinner ganador"],["Momio","momio","1.75"],["Monto $","monto","100"]].map(([lbl,key,ph]) => (
                       <div key={key}>
@@ -1029,20 +1029,20 @@ Al final: cuota total combinada y nivel de confianza.`;
                   <div style={{ marginBottom:10 }}>
                     <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:6 }}>Deporte</label>
                     <div style={{ display:"flex", gap:6, marginBottom:10 }}>
-                      {["???? Tenis","??? MLB","???? Mixto"].map(s => <Chip key={s} label={s} active={newBet.sport===s} onClick={() => setNewBet(b => ({ ...b, sport:s }))} sm />)}
+                      {["🎾 Tenis","⚾ MLB","🌎 Mixto"].map(s => <Chip key={s} label={s} active={newBet.sport===s} onClick={() => setNewBet(b => ({ ...b, sport:s }))} sm />)}
                     </div>
                     <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:6 }}>Origen del pick</label>
                     <div style={{ display:"flex", flexWrap:"wrap", gap:5 }}>
                       {PICK_TYPES.map(t => <Chip key={t} label={t} active={newBet.tipo===t} onClick={() => setNewBet(b => ({ ...b, tipo:t }))} sm />)}
                     </div>
                   </div>
-                  <GreenBtn onClick={addBet}>??? REGISTRAR APUESTA</GreenBtn>
+                  <GreenBtn onClick={addBet}>➕ REGISTRAR APUESTA</GreenBtn>
                 </Card>
 
                 {/* Bets table */}
                 {bets.length > 0 && (
                   <Card>
-                    <SectionHead>???? HISTORIAL DE APUESTAS</SectionHead>
+                    <SectionHead>📋 HISTORIAL DE APUESTAS</SectionHead>
                     <div style={{ overflowX:"auto" }}>
                       <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
                         <thead>
@@ -1052,7 +1052,7 @@ Al final: cuota total combinada y nivel de confianza.`;
                         </thead>
                         <tbody>
                           {bets.map(b => {
-                            const gan = b.resultado === "ganada" ? `+$${(parseFloat(b.monto)*parseFloat(b.momio)-parseFloat(b.monto)).toFixed(0)}` : b.resultado === "perdida" ? `-$${b.monto}` : "???";
+                            const gan = b.resultado === "ganada" ? `+$${(parseFloat(b.monto)*parseFloat(b.momio)-parseFloat(b.monto)).toFixed(0)}` : b.resultado === "perdida" ? `-$${b.monto}` : "—";
                             return (
                               <tr key={b.id} style={{ background: b.resultado==="ganada" ? "#f0fdf4" : b.resultado==="perdida" ? "#fef2f2" : "#fff" }}>
                                 <td style={{ padding:"8px 10px", borderBottom:"1px solid #f0f0f0" }}>{b.partido}</td>
@@ -1065,10 +1065,10 @@ Al final: cuota total combinada y nivel de confianza.`;
                                 <td style={{ padding:"8px 10px", borderBottom:"1px solid #f0f0f0" }}>
                                   {!b.resultado ? (
                                     <div style={{ display:"flex", gap:4 }}>
-                                      <button onClick={() => markResult(b.id,"ganada")} style={{ background:"#dcfce7", border:"none", borderRadius:4, padding:"4px 8px", cursor:"pointer", fontSize:13 }}>???</button>
-                                      <button onClick={() => markResult(b.id,"perdida")} style={{ background:"#fee2e2", border:"none", borderRadius:4, padding:"4px 8px", cursor:"pointer", fontSize:13 }}>???</button>
+                                      <button onClick={() => markResult(b.id,"ganada")} style={{ background:"#dcfce7", border:"none", borderRadius:4, padding:"4px 8px", cursor:"pointer", fontSize:13 }}>✅</button>
+                                      <button onClick={() => markResult(b.id,"perdida")} style={{ background:"#fee2e2", border:"none", borderRadius:4, padding:"4px 8px", cursor:"pointer", fontSize:13 }}>❌</button>
                                     </div>
-                                  ) : <span style={{ fontWeight:700, fontSize:13 }}>{b.resultado==="ganada" ? "??? Ganada" : "??? Perdida"}</span>}
+                                  ) : <span style={{ fontWeight:700, fontSize:13 }}>{b.resultado==="ganada" ? "✅ Ganada" : "❌ Perdida"}</span>}
                                 </td>
                               </tr>
                             );
@@ -1086,4 +1086,3 @@ Al final: cuota total combinada y nivel de confianza.`;
     </div>
   );
 }
-
