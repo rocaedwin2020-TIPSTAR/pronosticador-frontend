@@ -1,7 +1,6 @@
-import React from "react";
 import { useState, useEffect } from "react";
 
-const BACKEND = "https://pronosticador-backend.vercel.app";
+const BACKEND = "https://pronosticador-backend.onrender.com";
 
 // ─── PLAYER DATABASE ──────────────────────────────────────────────────────────
 const ATP = [
@@ -101,14 +100,6 @@ const emptyMLB = () => ({ team:"", record:"", pitcher:"", pitcherEra:"", bullpen
 const G = "#16a34a", GD = "#15803d";
 
 export default function App() {
-  // Wake up Render on load
-  useEffect(() => { if (tab === "picks" && mlbGames.length === 0) { fetchMLBGames(); }
-}, [tab]);
-
-useEffect(() => {
-    fetch(`${BACKEND}/`).catch(() => {});
-  }, []);
-
   const [tab, setTab] = useState("hoy");
   const [sport, setSport] = useState("tennis"); // tennis | mlb
 
@@ -186,66 +177,17 @@ useEffect(() => {
   const fetchMLBGames = async () => {
     setLoadingMLB(true);
     try {
-      // Call MLB official API directly - no backend needed, no CORS issues
-      const today = new Date();
-      const yyyy = today.getFullYear();
-      const mm = String(today.getMonth() + 1).padStart(2, "0");
-      const dd = String(today.getDate()).padStart(2, "0");
-      const dateStr = `${yyyy}-${mm}-${dd}`;
-      
-      const res = await fetch(`https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${dateStr}&hydrate=probablePitcher(note),linescore,team,weather,venue`);
+      // Wake up Render first (free plan sleeps after 15min)
+      const res = await fetch(`${BACKEND}/api/mlb/today`, { signal: AbortSignal.timeout(60000) });
       const data = await res.json();
-      
-      const games = [];
-      (data.dates || []).forEach(date => {
-        (date.games || []).forEach(game => {
-          const home = game.teams?.home;
-          const away = game.teams?.away;
-          const weather = game.weather || {};
-          const gameTime = game.gameDate;
-          let timeMex = "";
-          let madrugada = false;
-          if (gameTime) {
-            const d = new Date(gameTime);
-            timeMex = d.toLocaleTimeString("es-MX", { timeZone: "America/Mexico_City", hour: "2-digit", minute: "2-digit", hour12: false });
-            const h = parseInt(d.toLocaleString("es-MX", { timeZone: "America/Mexico_City", hour: "numeric", hour12: false }));
-            madrugada = h >= 0 && h < 7;
-          }
-          const windStr = weather.wind || "";
-          const windMph = parseInt(windStr.match(/(\d+)/)?.[1] || "0");
-          const windOut = windStr.toLowerCase().includes("out");
-          const windIn = windStr.toLowerCase().includes("in");
-          let windBetting = "🟢 Viento neutro";
-          if (windMph >= 15 && windOut) windBetting = "🔴 Viento AFUERA — favorece ALTAS";
-          else if (windMph >= 15 && windIn) windBetting = "🔵 Viento ADENTRO — favorece BAJAS";
-          else if (windMph >= 10 && windOut) windBetting = "🟡 Viento afuera moderado";
-          
-          games.push({
-            id: game.gamePk,
-            home_team: home?.team?.name || "",
-            home_team_short: home?.team?.abbreviation || "",
-            away_team: away?.team?.name || "",
-            away_team_short: away?.team?.abbreviation || "",
-            home_record: `${home?.leagueRecord?.wins||0}-${home?.leagueRecord?.losses||0}`,
-            away_record: `${away?.leagueRecord?.wins||0}-${away?.leagueRecord?.losses||0}`,
-            home_pitcher: home?.probablePitcher?.fullName || "Por confirmar",
-            home_pitcher_note: home?.probablePitcher?.note || "",
-            away_pitcher: away?.probablePitcher?.fullName || "Por confirmar",
-            away_pitcher_note: away?.probablePitcher?.note || "",
-            venue: game.venue?.name || "",
-            status: game.status?.detailedState || "",
-            time_mexico: timeMex,
-            madrugada,
-            weather: { condition: weather.condition||"", temp: weather.temp||"", wind: windStr, wind_mph: windMph, wind_betting: windBetting },
-            home_score: game.linescore?.teams?.home?.runs,
-            away_score: game.linescore?.teams?.away?.runs,
-          });
-        });
-      });
-      
-      setMlbGames(games);
+      if (data.success && data.games?.length > 0) {
+        setMlbGames(data.games);
+      } else {
+        // If no games today, show message
+        setMlbGames([]);
+      }
     } catch(e) {
-      console.log("MLB error:", e.message);
+      console.log("MLB fetch error:", e.message);
       setMlbGames([]);
     }
     setLoadingMLB(false);
@@ -468,13 +410,13 @@ Al final: cuota total combinada y nivel de confianza.`;
     const prompt = sport === "tennis" ? buildTennisPrompt() : buildMLBPrompt();
     setLoadingAnalysis(true); setAnalysis(null);
     try {
-      const res = await fetch(`${BACKEND}/api/analyze`, {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 1000, messages: [{ role: "user", content: prompt }] }),
       });
       const data = await res.json();
-      setAnalysis(data.text || data.error || "Error.");
+      setAnalysis(data.content?.map(b => b.text || "").join("\n") || "Error.");
     } catch { setAnalysis("❌ Error de conexión."); }
     setLoadingAnalysis(false);
   };
@@ -484,13 +426,13 @@ Al final: cuota total combinada y nivel de confianza.`;
     setLoadingSection(l => ({ ...l, [key]: true }));
     setSectionResult(r => ({ ...r, [key]: null }));
     try {
-      const res = await fetch(`${BACKEND}/api/analyze`, {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: buildSectionPrompt(type, sportType) }),
+        body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 1000, messages: [{ role: "user", content: buildSectionPrompt(type, sportType) }] }),
       });
       const data = await res.json();
-      setSectionResult(r => ({ ...r, [key]: data.text || data.error || "Error." }));
+      setSectionResult(r => ({ ...r, [key]: data.content?.map(b => b.text || "").join("\n") || "Error." }));
     } catch { setSectionResult(r => ({ ...r, [key]: "❌ Error." })); }
     setLoadingSection(l => ({ ...l, [key]: false }));
   };
@@ -974,14 +916,7 @@ Al final: cuota total combinada y nivel de confianza.`;
               <Card>
                 <SectionHead>💰 CONFIGURAR BANCA INICIAL</SectionHead>
                 <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:8 }}>Monto inicial (MXN)</label>
-                <input 
-                  style={{ width:"100%", padding:14, border:"1px solid #ddd", borderRadius:8, fontSize:22, fontWeight:700, marginBottom:12 }} 
-                  type="number" 
-                  placeholder="Ej: 2000" 
-                  defaultValue={banca}
-                  onBlur={e => setBanca(e.target.value)}
-                  inputMode="numeric"
-                />
+                <input style={{ width:"100%", padding:14, border:"1px solid #ddd", borderRadius:8, fontSize:22, fontWeight:700, marginBottom:12 }} type="number" placeholder="Ej: 2000" value={banca} onChange={e => setBanca(e.target.value)} />
                 <GreenBtn onClick={() => banca && setBancaSet(true)}>CONFIGURAR BANCA</GreenBtn>
               </Card>
             ) : (
@@ -1018,14 +953,8 @@ Al final: cuota total combinada y nivel de confianza.`;
                     {[["Partido","partido","Sinner vs Alcaraz"],["Pick / Mercado","pick","Sinner ganador"],["Momio","momio","1.75"],["Monto $","monto","100"]].map(([lbl,key,ph]) => (
                       <div key={key}>
                         <label style={{ display:"block", fontSize:11, fontWeight:700, color:"#888", letterSpacing:1, textTransform:"uppercase", marginBottom:5 }}>{lbl}</label>
-                        <input 
-                          style={{ width:"100%", padding:"9px 12px", border:"1px solid #ddd", borderRadius:6, fontSize:13 }}
-                          type={key==="momio"||key==="monto"?"number":"text"} 
-                          placeholder={ph} 
-                          defaultValue={newBet[key]}
-                          onBlur={e => setNewBet(b => ({ ...b, [key]:e.target.value }))}
-                          inputMode={key==="momio"||key==="monto"?"decimal":"text"}
-                        />
+                        <input style={{ width:"100%", padding:"9px 12px", border:"1px solid #ddd", borderRadius:6, fontSize:13 }}
+                          type={key==="momio"||key==="monto"?"number":"text"} placeholder={ph} value={newBet[key]} onChange={e => setNewBet(b => ({ ...b, [key]:e.target.value }))} />
                       </div>
                     ))}
                   </div>
